@@ -17,7 +17,7 @@ public class Application {
 	 * @throws InterruptedException
 	 */
 	private void startThreadPool() throws InterruptedException {
-		ThreadPoolManager poolManager = new ThreadPoolManager(5);
+		ThreadPoolManager poolManager = new ThreadPoolManager(5, 10);
 		for (int i = 0; i < 35; i++) {
 			poolManager.submitTask(new Runnable() {
 				@Override

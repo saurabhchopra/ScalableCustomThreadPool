@@ -46,8 +46,6 @@ public class MyQueue<E> implements CustomQueue<E> {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 		return e;
 	}
-
 }
