@@ -8,7 +8,8 @@ public class MyQueue<E> implements CustomQueue<E> {
 	private Queue<E> queue = new LinkedList<E>();
 
 	/**
-	 * @return
+	 * This method is used to get the size of queue
+	 * @return int
 	 */
 	public int getQueueLength() {
 		return queue.size();
@@ -22,6 +23,13 @@ public class MyQueue<E> implements CustomQueue<E> {
 	@Override
 	public synchronized void enqueue(E e) {
 		queue.add(e);
+		notifyAll();
+	}
+	
+	/**
+	 * This method is used to activate all the waiting thread
+	 */
+	public synchronized void activateAllThread() {
 		notifyAll();
 	}
 
@@ -41,7 +49,9 @@ public class MyQueue<E> implements CustomQueue<E> {
 					ex.printStackTrace();
 				}
 			}
-			e = queue.remove();
+			if(getQueueLength() > 0){
+				e = queue.remove();
+			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

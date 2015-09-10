@@ -51,5 +51,8 @@ public class Application {
 				}
 			}, String.valueOf(i));
 		}
+		
+		//To shutdown the thread pool
+		poolManager.shutdown();
 	}
 }

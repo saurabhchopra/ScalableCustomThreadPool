@@ -26,9 +26,11 @@ public class Worker implements Runnable {
 	public void run() {
 		while (isRunning) {
 			Runnable r = myQueue.dequeue();
-			System.out.println("Thread Started. Name: " + name);
-			r.run();
-			System.out.println("Thread work completed. Name: " + name);
+			if (r != null) {
+				System.out.println("Thread Started. Name: " + name);
+				r.run();
+				System.out.println("Thread work completed. Name: " + name);
+			}
 		}
 	}
 }

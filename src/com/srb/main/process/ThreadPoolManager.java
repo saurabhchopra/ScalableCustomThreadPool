@@ -10,6 +10,7 @@ public class ThreadPoolManager {
 	private final int MAX_THREAD_POOL_CAPACITY;
 	private MyQueue<Runnable> myQueue = new MyQueue<Runnable>();
 	private Queue<Worker> workerList = new LinkedList<Worker>();
+	private boolean isRunning = true;
 
 	/**
 	 * @param minCapacity
@@ -35,13 +36,14 @@ public class ThreadPoolManager {
 	}
 
 	/**
-	 * 
+	 * This method is used add watch on thread pool and scale the size of thread
+	 * pool accordingly
 	 */
 	private void watcher() {
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (true) {
+				while (isRunning) {
 					if ((myQueue.getQueueLength()) > MIN_THREAD_POOL_CAPACITY
 							&& workerList.size() < MAX_THREAD_POOL_CAPACITY) {
 						for (int i = MIN_THREAD_POOL_CAPACITY + 1; i <= MAX_THREAD_POOL_CAPACITY; i++) {
@@ -57,11 +59,49 @@ public class ThreadPoolManager {
 							worker.isRunning = false;
 						}
 					}
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					System.out.println("workerList size" + workerList.size());
 				}
 			}
 		});
 		th.start();
+	}
+
+	/**
+	 * This method is used to shutdown the thread pool
+	 */
+	public void shutdown() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				boolean iscurrentThreadRunning = true;
+				while (iscurrentThreadRunning) {
+					System.out.println("Task queue size = " + myQueue.getQueueLength());
+					if (myQueue.getQueueLength() == 0) {
+						for (Worker worker : workerList) {
+							worker.isRunning = false;
+						}
+						myQueue.activateAllThread();
+						workerList.clear();
+						// Shutdown watcher
+						isRunning = false;
+						System.out.println("Thread pool shutdown");
+						iscurrentThreadRunning = false;
+					}
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
+		thread.start();
 	}
 
 	/**
