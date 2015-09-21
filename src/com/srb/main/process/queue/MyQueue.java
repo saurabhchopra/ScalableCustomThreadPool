@@ -52,7 +52,6 @@ public class MyQueue<E> implements CustomQueue<E> {
 			if(getQueueLength() > 0){
 				e = queue.remove();
 			}
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
