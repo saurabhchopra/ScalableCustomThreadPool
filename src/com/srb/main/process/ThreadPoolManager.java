@@ -8,7 +8,7 @@ import com.srb.main.process.queue.MyQueue;
 public class ThreadPoolManager {
 	private final int MIN_THREAD_POOL_CAPACITY;
 	private final int MAX_THREAD_POOL_CAPACITY;
-	private MyQueue<Runnable> myQueue = new MyQueue<Runnable>();
+	private MyQueue<Task> myQueue = new MyQueue<Task>();
 	private Queue<Worker> workerList = new LinkedList<Worker>();
 	private boolean isRunning = true;
 
@@ -108,7 +108,7 @@ public class ThreadPoolManager {
 	 * @param r
 	 * @param threadName
 	 */
-	public void submitTask(Runnable r, String threadName) {
+	public void submitTask(Task r, String threadName) {
 		myQueue.enqueue(r);
 	}
 }

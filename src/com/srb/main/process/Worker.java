@@ -4,7 +4,7 @@ import com.srb.main.process.queue.MyQueue;
 
 public class Worker implements Runnable {
 
-	private MyQueue<Runnable> myQueue;
+	private MyQueue<Task> myQueue;
 	private String name;
 	public boolean isRunning = true;
 
@@ -12,7 +12,7 @@ public class Worker implements Runnable {
 	 * @param myQueue
 	 * @param name
 	 */
-	public Worker(MyQueue<Runnable> myQueue, String name) {
+	public Worker(MyQueue<Task> myQueue, String name) {
 		this.myQueue = myQueue;
 		this.name = name;
 	}
@@ -25,10 +25,10 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 		while (isRunning) {
-			Runnable r = myQueue.dequeue();
-			if (r != null) {
+			Task t = myQueue.dequeue();
+			if (t != null) {
 				System.out.println("Thread Started. Name: " + name);
-				r.run();
+				t.action();
 				System.out.println("Thread work completed. Name: " + name);
 			}
 		}

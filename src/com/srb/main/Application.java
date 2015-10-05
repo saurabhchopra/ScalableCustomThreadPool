@@ -1,5 +1,6 @@
 package com.srb.main;
 
+import com.srb.main.process.Task;
 import com.srb.main.process.ThreadPoolManager;
 
 public class Application {
@@ -19,9 +20,10 @@ public class Application {
 	private void startThreadPool() throws InterruptedException {
 		ThreadPoolManager poolManager = new ThreadPoolManager(5, 10);
 		for (int i = 0; i < 35; i++) {
-			poolManager.submitTask(new Runnable() {
+			poolManager.submitTask(new Task() {
+
 				@Override
-				public void run() {
+				public void action() {
 					try {
 						double i = Math.random();
 						System.out.println("Task " + i + " started");
@@ -37,9 +39,10 @@ public class Application {
 		Thread.sleep(20000);
 
 		for (int i = 0; i < 35; i++) {
-			poolManager.submitTask(new Runnable() {
+			poolManager.submitTask(new Task() {
+
 				@Override
-				public void run() {
+				public void action() {
 					try {
 						double i = Math.random();
 						System.out.println("Task " + i + " started");
@@ -48,11 +51,12 @@ public class Application {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+
 				}
 			}, String.valueOf(i));
 		}
-		
-		//To shutdown the thread pool
+
+		// To shutdown the thread pool
 		poolManager.shutdown();
 	}
 }
