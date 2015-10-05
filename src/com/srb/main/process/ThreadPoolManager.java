@@ -105,10 +105,10 @@ public class ThreadPoolManager {
 	}
 
 	/**
-	 * @param r
+	 * @param t
 	 * @param threadName
 	 */
-	public void submitTask(Task r, String threadName) {
-		myQueue.enqueue(r);
+	public void submitTask(Task t, String threadName) {
+		myQueue.enqueue(t);
 	}
 }
